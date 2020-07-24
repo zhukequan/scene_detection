@@ -2,11 +2,13 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import Qt, QObject
 from mainwindow import *
+from playchooseview import PlayChoose
 import sys
 import cv2
 import numpy as np
 import time
 import run_detection
+import run_instance_segmentation
 import os
 
 class PlayVideo(QObject):
@@ -33,7 +35,6 @@ class PlayVideo(QObject):
             self.id = None
 
 
-
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
@@ -41,8 +42,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.openButton.clicked.connect(self.openfile)
         self.playButton.clicked.connect(self.start_play)
         self.detectionButton.clicked.connect(self.run_detection_model)
-
-
+        self.play_choose = PlayChoose(self)
+        self.play_choose.setModal(True)
         self.play_video = PlayVideo(self)
 
     def run_detection_model(self):
@@ -55,14 +56,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # a = cap.read()
             self.detection_result = [n_frames, fps, cap, result_path]
 
+    def run_instance_model(self):
+        if hasattr(self, "video") and len(self.video)>=4 and os.path.exists(self.video[3]):
+            result_path = run_instance_segmentation.run_video(self.video[3])
+            cap = cv2.VideoCapture(result_path)
+            n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+            fps = cap.get(cv2.CAP_PROP_FPS)
+            # cap.set(cv2.CAP_PROP_POS_FRAMES, 50)
+            # a = cap.read()
+            self.instance_result = [n_frames, fps, cap, result_path]
+
     def openfile(self):
         file_name = QFileDialog.getOpenFileName(caption="打开图片文件", filter="Vedio Files(*.mp4)")
+        if not file_name:
+            return
         cap = cv2.VideoCapture(file_name[0])
         n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         fps = cap.get(cv2.CAP_PROP_FPS)
         #cap.set(cv2.CAP_PROP_POS_FRAMES, 50)
         #a = cap.read()
         self.video = [n_frames, fps, cap, file_name[0]]
+        self.video[2].set(cv2.CAP_PROP_POS_FRAMES, 0)
+        code, image = self.video[2].read()
+        if code:
+            self.draw_image(self.drawLabel1, image)
+        if hasattr(self, "detection_result"):
+            delattr(self, "detection_result")
+        if hasattr(self, "instance_result"):
+            delattr(self, "instance_result")
 
     @staticmethod
     def draw_image(label_widget, image):
@@ -80,12 +101,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if code:
                 self.draw_image(self.drawLabel1, image)
         if hasattr(self, "detection_result") and len(self.detection_result) >= 4 and os.path.exists(self.detection_result[3]):
-            self.detection_result[2].set(cv2.CAP_PROP_POS_FRAMES, pos)
-            code, image = self.detection_result[2].read()
-            if code:
-                self.draw_image(self.drawLabel2, image)
+            if self.play_choose.chooseed == 1:
+                self.detection_result[2].set(cv2.CAP_PROP_POS_FRAMES, pos)
+                code, image = self.detection_result[2].read()
+                if code:
+                    self.draw_image(self.drawLabel2, image)
+
+        if hasattr(self, "detection_result") and len(self.detection_result) >= 4 and os.path.exists(self.detection_result[3]):
+            if self.play_choose.chooseed == 2:
+                self.instance_result[2].set(cv2.CAP_PROP_POS_FRAMES, pos)
+                code, image = self.instance_result[2].read()
+                if code:
+                    self.draw_image(self.drawLabel2, image)
 
     def start_play(self):
+        self.play_choose.exec()
+        if not (hasattr(self, "video") and len(self.video) >= 4 and os.path.exists(self.video[3])):
+            return
+        if hasattr(self, "detection_result") and len(self.detection_result) >= 4 and os.path.exists(
+                self.detection_result[3]):
+            return
         step_time = 1/self.video[1]*1000
         self.play_video.set_option(step_time, self.video[0], self.play)
         self.play_video.start()

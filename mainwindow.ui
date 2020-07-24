@@ -32,13 +32,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="saveButton">
-         <property name="text">
-          <string>保存</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QPushButton" name="detectionButton">
          <property name="text">
           <string>目标检测</string>
@@ -64,7 +57,7 @@
     </item>
     <item>
      <widget class="QWidget" name="widget_2" native="true">
-      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="15,1">
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="15">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
@@ -80,20 +73,6 @@
             <string/>
            </property>
           </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QSlider" name="horizontalSlider">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spinBox"/>
          </item>
         </layout>
        </item>
