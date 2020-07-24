@@ -9,12 +9,12 @@ class PlayChoose(Ui_Dialog, QDialog):
         self.setupUi(self)
         self.originRadio.setChecked(True)
         self.okButton.clicked.connect(self.okbottun_action)
-        self.originRadio.clicked.connect(self.origin_ckecked)
-        self.detectionRadio.clicked.connect(self.detection_ckecked)
-        self.instanceRadio.clicked.connect(self.instance_ckecked)
+        self.originRadio.clicked.connect(self.origin_checked)
+        self.detectionRadio.clicked.connect(self.detection_checked)
+        self.instanceRadio.clicked.connect(self.instance_checked)
         self.chooseed = 0
 
-    def origin_ckecked(self):
+    def origin_checked(self):
         self.chooseed = 0
 
     def detection_checked(self):

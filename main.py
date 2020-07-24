@@ -7,8 +7,8 @@ import sys
 import cv2
 import numpy as np
 import time
-import run_detection
-import run_instance_segmentation
+from detection_model import run_detection
+from detection_model import run_instance_segmentation
 import os
 
 class PlayVideo(QObject):
