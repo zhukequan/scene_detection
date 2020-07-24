@@ -7,8 +7,8 @@ import sys
 import cv2
 import numpy as np
 import time
-from detection_model import run_detection
-from detection_model import run_instance_segmentation
+import run_detection
+import run_instance_segmentation
 import os
 
 class PlayVideo(QObject):
@@ -33,7 +33,10 @@ class PlayVideo(QObject):
         if self.cur_call>= self.times:
             self.killTimer(self.id)
             self.id = None
-
+    def stop(self):
+        if hasattr(self, "id") and self.id:
+            self.killTimer(self.id)
+            self.id=None
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -115,11 +118,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.draw_image(self.drawLabel2, image)
 
     def start_play(self):
+        self.play_video.stop()
         self.play_choose.exec()
         if not (hasattr(self, "video") and len(self.video) >= 4 and os.path.exists(self.video[3])):
-            return
-        if hasattr(self, "detection_result") and len(self.detection_result) >= 4 and os.path.exists(
-                self.detection_result[3]):
             return
         step_time = 1/self.video[1]*1000
         self.play_video.set_option(step_time, self.video[0], self.play)
