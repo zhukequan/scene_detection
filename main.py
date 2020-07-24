@@ -40,13 +40,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.openButton.clicked.connect(self.openfile)
         self.playButton.clicked.connect(self.start_play)
-        self.detectionButton.clicked.connect()
+        self.detectionButton.clicked.connect(self.run_detection_model)
 
 
         self.play_video = PlayVideo(self)
 
     def run_detection_model(self):
-        if hasattr(self, "video") and len(self.video)>=4 and os.path.exists(self.video):
+        if hasattr(self, "video") and len(self.video)>=4 and os.path.exists(self.video[3]):
             result_path = run_detection.run_video(self.video[3])
             cap = cv2.VideoCapture(result_path)
             n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -74,20 +74,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         label_widget.setAlignment(Qt.AlignCenter)
 
     def play(self, pos):
-        if hasattr(self, "video") and len(self.video) >= 4 and os.path.exists(self.video):
-            self.vedio[2].set(cv2.CAP_PROP_POS_FRAMES, pos)
-            code, image = self.vedio[2].read()
+        if hasattr(self, "video") and len(self.video) >= 4 and os.path.exists(self.video[3]):
+            self.video[2].set(cv2.CAP_PROP_POS_FRAMES, pos)
+            code, image = self.video[2].read()
             if code:
                 self.draw_image(self.drawLabel1, image)
-        if hasattr(self, "detection_result") and len(self.detection_result) >= 4 and os.path.exists(self.detection_result):
-            self.detection_result.set(cv2.CAP_PROP_POS_FRAMES, pos)
-            code, image = self.detection_result.read()
+        if hasattr(self, "detection_result") and len(self.detection_result) >= 4 and os.path.exists(self.detection_result[3]):
+            self.detection_result[2].set(cv2.CAP_PROP_POS_FRAMES, pos)
+            code, image = self.detection_result[2].read()
             if code:
                 self.draw_image(self.drawLabel2, image)
 
     def start_play(self):
-        step_time = 1/self.vedio[1]*1000
-        self.play_video.set_option(step_time, self.vedio[0], self.play)
+        step_time = 1/self.video[1]*1000
+        self.play_video.set_option(step_time, self.video[0], self.play)
         self.play_video.start()
 
 
