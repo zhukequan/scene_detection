@@ -45,6 +45,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.openButton.clicked.connect(self.openfile)
         self.playButton.clicked.connect(self.start_play)
         self.detectionButton.clicked.connect(self.run_detection_model)
+        self.segmentButton.clicked.connect(self.run_instance_model)
+        self.stopButton.click.connect(self.stop_play)
         self.play_choose = PlayChoose(self)
         self.play_choose.setModal(True)
         self.play_video = PlayVideo(self)
@@ -68,6 +70,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # cap.set(cv2.CAP_PROP_POS_FRAMES, 50)
             # a = cap.read()
             self.instance_result = [n_frames, fps, cap, result_path]
+
+    def stop_play(self):
+        self.play_video.stop()
 
     def openfile(self):
         file_name = QFileDialog.getOpenFileName(caption="打开图片文件", filter="Vedio Files(*.mp4)")
