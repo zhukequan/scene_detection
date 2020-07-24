@@ -46,7 +46,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.playButton.clicked.connect(self.start_play)
         self.detectionButton.clicked.connect(self.run_detection_model)
         self.segmentButton.clicked.connect(self.run_instance_model)
-        self.stopButton.click.connect(self.stop_play)
+        self.stopButton.clicked.connect(self.stop_play)
         self.play_choose = PlayChoose(self)
         self.play_choose.setModal(True)
         self.play_video = PlayVideo(self)
