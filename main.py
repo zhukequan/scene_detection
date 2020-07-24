@@ -8,7 +8,7 @@ import cv2
 import numpy as np
 import time
 import run_detection
-import run_instance_segmentation
+import run_segment
 import os
 
 class PlayVideo(QObject):
@@ -63,7 +63,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def run_instance_model(self):
         if hasattr(self, "video") and len(self.video)>=4 and os.path.exists(self.video[3]):
-            result_path = run_instance_segmentation.run_video(self.video[3])
+            result_path = run_segment.run_video(self.video[3])
             cap = cv2.VideoCapture(result_path)
             n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
             fps = cap.get(cv2.CAP_PROP_FPS)
