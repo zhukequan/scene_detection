@@ -110,7 +110,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         qimage = QImage(image.tobytes(), image.shape[1], image.shape[0], QImage.Format_RGB888)
         pixmap = QPixmap(qimage)
         size = label_widget.size()
-        pixmap = pixmap.scaled(size.width(), size.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        pixmap = pixmap.scaled(size.width(), size.height(), Qt.SmoothTransformation)
         label_widget.setPixmap(pixmap)
         label_widget.setAlignment(Qt.AlignCenter)
 
