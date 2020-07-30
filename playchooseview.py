@@ -1,8 +1,5 @@
 from playchoose import *
 from PyQt5.QtWidgets import *
-from matplotlib import pyplot as plt
-import matplotlib
-matplotlib.use()
 
 
 class PlayChoose(Ui_Dialog, QDialog):
