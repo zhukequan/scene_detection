@@ -53,7 +53,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def paintEvent(self, event):
         widget_size = self.widget_2.size()
-        label_size = QSize(widget_size.height(), widget_size.width()/2)
+        label_size = QSize()
+        label_size.setHeight(widget_size.height())
+        label_size.setWidth(widget_size.width()/2)
         self.drawLabel1.resize(label_size)
         self.drawLabel2.resize(label_size)
 
