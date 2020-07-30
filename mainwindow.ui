@@ -64,18 +64,11 @@
     </item>
     <item>
      <widget class="QWidget" name="widget_2" native="true">
-      <property name="styleSheet">
-       <string notr="true">border:1px solid black;
-</string>
-      </property>
       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="15">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
           <widget class="QLabel" name="drawLabel1">
-           <property name="layoutDirection">
-            <enum>Qt::RightToLeft</enum>
-           </property>
            <property name="text">
             <string/>
            </property>
@@ -83,9 +76,6 @@
          </item>
          <item>
           <widget class="QLabel" name="drawLabel2">
-           <property name="lineWidth">
-            <number>1</number>
-           </property>
            <property name="text">
             <string/>
            </property>
