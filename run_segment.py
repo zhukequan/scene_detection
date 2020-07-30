@@ -21,7 +21,7 @@ def run_video(input_data):
     pos = 0
     while pos < n_frames:
         code, image = cap.read()
-        image_file = os.path.join(image_path, "%d.png"%(pos))
+        image_file = os.path.join(image_path, "%05d.jpg"%(pos))
         cv2.imwrite(image_file, image)
         pos+=1
     output_image_path = run_instance_segmentation.run_video(image_path)

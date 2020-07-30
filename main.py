@@ -115,7 +115,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 if code:
                     self.draw_image(self.drawLabel2, image)
 
-        if hasattr(self, "detection_result") and len(self.detection_result) >= 4 and os.path.exists(self.detection_result[3]):
+        if hasattr(self, "instance_result") and len(self.instance_result) >= 4 and os.path.exists(self.instance_result[3]):
             if self.play_choose.chooseed == 2:
                 self.instance_result[2].set(cv2.CAP_PROP_POS_FRAMES, pos)
                 code, image = self.instance_result[2].read()
