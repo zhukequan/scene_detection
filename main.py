@@ -50,13 +50,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.play_choose = PlayChoose(self)
         self.play_choose.setModal(True)
         self.play_video = PlayVideo(self)
-        self.drawLabel1.adjustSize()
-        self.drawLabel2.adjustSize()
+        #self.drawLabel1.adjustSize()
+        #self.drawLabel2.adjustSize()
         self.image1 = None
         self.image2 = None
 
     def paintEvent(self, event):
+        self.drawLabel1.clear()
+        self.drawLabel2.clear()
+        size = self.widget_2.size()
+        size1 = QSize()
+        size2 = QSize()
+        size2.setHeight(size.height())
+        size2.setWidth(size.width()/2)
+        size1.setHeight(size.height())
+        size1.setWidth(size.width() / 2)
+        self.drawLabel1.resize(size1)
+        self.drawLabel2.resize(size2)
         if not self.image1 is None:
+
             size1 = self.drawLabel1.size()
             qimage1 = QImage(self.image1.tobytes(), self.image1.shape[1], self.image1.shape[0], QImage.Format_RGB888)
             pixmap1 = QPixmap(qimage1)
@@ -64,6 +76,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.drawLabel1.setPixmap(pixmap1)
             self.drawLabel1.setAlignment(Qt.AlignCenter)
         if not self.image2 is None:
+            self.drawLabel2.clear()
             size2 = self.drawLabel2.size()
             qimage2 = QImage(self.image2.tobytes(), self.image2.shape[1], self.image2.shape[0], QImage.Format_RGB888)
             pixmap2 = QPixmap(qimage2)
