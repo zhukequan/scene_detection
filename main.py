@@ -56,14 +56,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.image2 = None
 
     def paintEvent(self, event):
-        if self.image1:
+        if self.image1 != None:
             size1 = self.drawLabel1.size()
             qimage1 = QImage(self.image1.tobytes(), self.image1.shape[1], self.image1.shape[0], QImage.Format_RGB888)
             pixmap1 = QPixmap(qimage1)
             pixmap1 = pixmap1.scaled(size1.width(), size1.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
             self.drawLabel1.setPixmap(pixmap1)
             self.drawLabel1.setAlignment(Qt.AlignCenter)
-        if self.image2:
+        if self.image2 != None:
             size2 = self.drawLabel2.size()
             qimage2 = QImage(self.image2.tobytes(), self.image2.shape[1], self.image2.shape[0], QImage.Format_RGB888)
             pixmap2 = QPixmap(qimage2)
