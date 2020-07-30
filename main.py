@@ -50,16 +50,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.play_choose = PlayChoose(self)
         self.play_choose.setModal(True)
         self.play_video = PlayVideo(self)
+        self.drawLabel1.adjustSize()
+        self.drawLabel2.adjustSize()
 
-    def paintEvent(self, event):
-        widget_size = self.widget_2.size()
-        label_size = QSize()
-
-        label_size.setHeight(widget_size.height()/2)
-        label_size.setWidth(widget_size.width())
-        print(label_size.height(), label_size.width())
-        self.drawLabel1.resize(label_size)
-        self.drawLabel2.resize(label_size)
+    # def paintEvent(self, event):
+    #     widget_size = self.widget_2.size()
+    #     label_size = QSize()
+    #
+    #     label_size.setHeight(widget_size.height()/2)
+    #     label_size.setWidth(widget_size.width())
+    #     print(label_size.height(), label_size.width())
+    #     self.drawLabel1.resize(label_size)
+    #     self.drawLabel2.resize(label_size)
 
     def run_detection_model(self):
         if hasattr(self, "video") and len(self.video)>=4 and os.path.exists(self.video[3]):
