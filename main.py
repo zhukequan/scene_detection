@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtCore import Qt, QObject
+from PyQt5.QtCore import Qt, QObject, QSize
 from mainwindow import *
 from playchooseview import PlayChoose
 import sys
@@ -53,7 +53,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def paintEvent(self, event):
         widget_size = self.widget_2.size()
-        label_size = (widget_size[0]/2, widget_size[1])
+        label_size = QSize(widget_size.height/2, widget_size.width)
         self.drawLabel1.resize(label_size)
         self.drawLabel2.resize(label_size)
 
