@@ -52,16 +52,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.play_video = PlayVideo(self)
         self.drawLabel1.adjustSize()
         self.drawLabel2.adjustSize()
+        self.image1 = None
+        self.image2 = None
 
-    # def paintEvent(self, event):
-    #     widget_size = self.widget_2.size()
-    #     label_size = QSize()
-    #
-    #     label_size.setHeight(widget_size.height()/2)
-    #     label_size.setWidth(widget_size.width())
-    #     print(label_size.height(), label_size.width())
-    #     self.drawLabel1.resize(label_size)
-    #     self.drawLabel2.resize(label_size)
+    def paintEvent(self, event):
+        if self.image1:
+            size1 = self.drawLabel1.size()
+            qimage1 = QImage(self.image1.tobytes(), self.image1.shape[1], self.image1.shape[0], QImage.Format_RGB888)
+            pixmap1 = QPixmap(qimage1)
+            pixmap1 = pixmap1.scaled(size1.width(), size1.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.drawLabel1.setPixmap(pixmap1)
+            self.drawLabel1.setAlignment(Qt.AlignCenter)
+        if self.image2:
+            size2 = self.drawLabel2.size()
+            qimage2 = QImage(self.image2.tobytes(), self.image2.shape[1], self.image2.shape[0], QImage.Format_RGB888)
+            pixmap2 = QPixmap(qimage2)
+            pixmap2 = pixmap2.scaled(size2.width(), size2.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.drawLabel2.setPixmap(pixmap2)
+            self.drawLabel2.setAlignment(Qt.AlignCenter)
 
     def run_detection_model(self):
         if hasattr(self, "video") and len(self.video)>=4 and os.path.exists(self.video[3]):
@@ -99,6 +107,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.video[2].set(cv2.CAP_PROP_POS_FRAMES, 0)
         code, image = self.video[2].read()
         if code:
+            self.image1 = image
             self.draw_image(self.drawLabel1, image)
         if hasattr(self, "detection_result"):
             delattr(self, "detection_result")
@@ -110,7 +119,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         qimage = QImage(image.tobytes(), image.shape[1], image.shape[0], QImage.Format_RGB888)
         pixmap = QPixmap(qimage)
         size = label_widget.size()
-        pixmap = pixmap.scaled(size.width(), size.height(), Qt.SmoothTransformation)
+        pixmap = pixmap.scaled(size.width(), size.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
         label_widget.setPixmap(pixmap)
         label_widget.setAlignment(Qt.AlignCenter)
 
@@ -118,12 +127,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if hasattr(self, "video") and len(self.video) >= 4 and os.path.exists(self.video[3]):
             self.video[2].set(cv2.CAP_PROP_POS_FRAMES, pos)
             code, image = self.video[2].read()
+            self.image1 = image
             if code:
                 self.draw_image(self.drawLabel1, image)
         if hasattr(self, "detection_result") and len(self.detection_result) >= 4 and os.path.exists(self.detection_result[3]):
             if self.play_choose.chooseed == 1:
                 self.detection_result[2].set(cv2.CAP_PROP_POS_FRAMES, pos)
                 code, image = self.detection_result[2].read()
+                self.image2 = image
                 if code:
                     self.draw_image(self.drawLabel2, image)
 
@@ -131,6 +142,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if self.play_choose.chooseed == 2:
                 self.instance_result[2].set(cv2.CAP_PROP_POS_FRAMES, pos)
                 code, image = self.instance_result[2].read()
+                self.image2 = image
                 if code:
                     self.draw_image(self.drawLabel2, image)
 
