@@ -61,9 +61,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         size = self.widget_2.size()
         size1 = QSize()
         size2 = QSize()
-        size2.setHeight(size.height()/2)
+        size2.setHeight(size.height()*0.4)
         size2.setWidth(size.width())
-        size1.setHeight(size.height()/2)
+        size1.setHeight(size.height()*0.4)
         size1.setWidth(size.width())
         self.drawLabel1.resize(size1)
         self.drawLabel2.resize(size2)
@@ -121,11 +121,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         code, image = self.video[2].read()
         if code:
             self.image1 = image
-            self.draw_image(self.drawLabel1, image)
+            self.image2 = None
+            #self.draw_image(self.drawLabel1, image)
         if hasattr(self, "detection_result"):
             delattr(self, "detection_result")
         if hasattr(self, "instance_result"):
             delattr(self, "instance_result")
+        self.repaint()
 
     @staticmethod
     def draw_image(label_widget, image):
@@ -140,24 +142,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if hasattr(self, "video") and len(self.video) >= 4 and os.path.exists(self.video[3]):
             self.video[2].set(cv2.CAP_PROP_POS_FRAMES, pos)
             code, image = self.video[2].read()
-            self.image1 = image
+
             if code:
-                self.draw_image(self.drawLabel1, image)
+                self.image1 = image
+                #self.draw_image(self.drawLabel1, image)
         if hasattr(self, "detection_result") and len(self.detection_result) >= 4 and os.path.exists(self.detection_result[3]):
             if self.play_choose.chooseed == 1:
                 self.detection_result[2].set(cv2.CAP_PROP_POS_FRAMES, pos)
                 code, image = self.detection_result[2].read()
-                self.image2 = image
+
                 if code:
-                    self.draw_image(self.drawLabel2, image)
+                    self.image2 = image
+                    #self.draw_image(self.drawLabel2, image)
 
         if hasattr(self, "instance_result") and len(self.instance_result) >= 4 and os.path.exists(self.instance_result[3]):
             if self.play_choose.chooseed == 2:
                 self.instance_result[2].set(cv2.CAP_PROP_POS_FRAMES, pos)
                 code, image = self.instance_result[2].read()
-                self.image2 = image
+
                 if code:
-                    self.draw_image(self.drawLabel2, image)
+                    self.image2 = image
+                    #self.draw_image(self.drawLabel2, image)
+        self.repaint()
 
     def start_play(self):
         self.play_video.stop()
