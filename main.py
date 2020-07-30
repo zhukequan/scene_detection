@@ -51,6 +51,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.play_choose.setModal(True)
         self.play_video = PlayVideo(self)
 
+    def paintEvent(self, event):
+        widget_size = self.widget_2.size()
+        label_size = (widget_size[0]/2, widget_size[1])
+        self.drawLabel1.resize(label_size)
+        self.drawLabel2.resize(label_size)
+
     def run_detection_model(self):
         if hasattr(self, "video") and len(self.video)>=4 and os.path.exists(self.video[3]):
             result_path = run_detection.run_video(self.video[3])
