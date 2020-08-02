@@ -48,10 +48,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.detectionButton.clicked.connect(self.run_detection_model)
         self.segmentButton.clicked.connect(self.run_instance_model)
         self.stopButton.clicked.connect(self.stop_play)
-        self.openimgButton.clicked(self.openimgButton)
-        self.lastButton.clicked(self.last_image)
-        self.nextButton.clicked(self.next_image)
-        self.segmentButton.clicked(self.image_seg)
+        self.openimgButton.clicked.connect(self.openimgButton)
+        self.lastButton.clicked.connect(self.last_image)
+        self.nextButton.clicked.connect(self.next_image)
+        self.segmentButton.clicked.connect(self.image_seg)
         self.play_choose = PlayChoose(self)
         self.play_choose.setModal(True)
         self.play_video = PlayVideo(self)
@@ -116,7 +116,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.play_video.stop()
 
     def openpath(self):
-        self.dir_path = QFileDialog.getExistingDirectory(parent=self, caption="打开图片文件",options=QFileDialog.ShowDirsOnly)
+        self.dir_path = QFileDialog.getExistingDirectory(parent=self, caption="打开图片文件", directory= "/home/jhvision-3/xu/SHU_FLH/detection_model/PANet/data/coco/images/val2017",options=QFileDialog.ShowDirsOnly)
 
         self.result_list = sorted(self.result_list)
         self.image_list = os.listdir(self.dir_path)
