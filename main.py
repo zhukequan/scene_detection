@@ -11,6 +11,8 @@ import time
 import run_detection
 import run_segment
 import os
+import random
+
 
 class PlayVideo(QObject):
     def __init__(self, parent):
@@ -64,7 +66,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def paintEvent(self, event):
         self.drawLabel1.clear()
         self.drawLabel2.clear()
-        size = self.widget_2.size()
+        size = self.widget_4.size()
         size1 = QSize()
         size2 = QSize()
         size2.setHeight(size.height()*0.45)
@@ -120,7 +122,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dir_path = "/home/jhvision-3/xu/SHU_FLH/detection_model/PANet/data/coco/images/val2017"
         self.image_list = os.listdir(self.dir_path)
         self.image_list = sorted(self.image_list)
-        self.image_pos = 0
+        self.poses = random.sample(list(range(len(self.image_list))), 200)
+        self.pos_poses = 0
+        self.image_pos = self.poses[self.pos_poses]
         self.play_video.stop()
         self.image1 = cv2.imread(os.path.join(self.dir_path, self.image_list[self.image_pos]))
         self.image2 = None
@@ -128,7 +132,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.repaint()
 
     def next_image(self):
-        self.image_pos = (self.image_pos + 1)% len(self.image_list)
+        if not hasattr(self, "dir_path"):
+            return
+        self.pos_poses = (self.pos_poses + 1)% len(self.poses)
+        self.image_pos = self.poses[self.pos_poses]
         self.image1 = cv2.imread(os.path.join(self.dir_path, self.image_list[self.image_pos]))
         if hasattr(self, "result_path"):
             self.image2 = self.image2 = cv2.imread(os.path.join(self.result_path, self.result_list[self.image_pos]))
@@ -138,7 +145,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.repaint()
 
     def last_image(self):
-        self.image_pos = (self.image_pos - 1 + len(self.image_list)) % len(self.image_list)
+        if not hasattr(self, "dir_path"):
+            return
+        self.pos_poses = (self.pos_poses - 1 + len(self.image_list)) % len(self.poses)
+        self.image_pos = self.poses[self.pos_poses]
         self.image1 = cv2.imread(os.path.join(self.dir_path, self.image_list[self.image_pos]))
         if hasattr(self, "result_path"):
             self.image2 = self.image2 = cv2.imread(os.path.join(self.result_path, self.result_list[self.image_pos]))
@@ -148,11 +158,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.repaint()
 
     def image_seg(self):
-        print(11)
         self.result_path = "/home/jhvision-3/xu/SHU_FLH/detection_model/results/8-2"
         self.result_list = os.listdir(self.result_path)
         self.result_list = sorted(self.result_list)
-        precision = run_instance_segmentation.run(range(0, len(self.result_list)))
+        precision = run_instance_segmentation.run(self.poses)
         self.detEdit.setText(str(precision[0]))
         self.apEdit.setText(str(precision[0]))
         self.FPEdit.setText(str(precision[0]))
