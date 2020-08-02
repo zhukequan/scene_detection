@@ -27,7 +27,35 @@
        <item>
         <widget class="QPushButton" name="openButton">
          <property name="text">
-          <string>打开文件</string>
+          <string>打开视频</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="openimgButton">
+         <property name="text">
+          <string>打开图片</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="lastButton">
+         <property name="text">
+          <string>上一张图</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="nextButton">
+         <property name="text">
+          <string>下一张图</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="imgsegButton">
+         <property name="text">
+          <string>图片分割</string>
          </property>
         </widget>
        </item>
@@ -64,7 +92,7 @@
     </item>
     <item>
      <widget class="QWidget" name="widget_2" native="true">
-      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="15">
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="15,1">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
@@ -82,6 +110,52 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_3" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>image</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="imgEdit"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>ap_det</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="detEdit"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>ap_seg</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="apEdit"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>FP</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="FPEdit"/>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </widget>
