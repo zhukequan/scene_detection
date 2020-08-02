@@ -1,3 +1,4 @@
+import run_instance_segmentation
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import Qt, QObject, QSize
@@ -9,7 +10,6 @@ import numpy as np
 import time
 import run_detection
 import run_segment
-import run_instance_segmentation
 import os
 
 class PlayVideo(QObject):
@@ -48,10 +48,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.detectionButton.clicked.connect(self.run_detection_model)
         self.segmentButton.clicked.connect(self.run_instance_model)
         self.stopButton.clicked.connect(self.stop_play)
-        self.openimgButton.clicked.connect(self.openimgButton)
+        self.openimgButton.clicked.connect(self.openpath)
         self.lastButton.clicked.connect(self.last_image)
         self.nextButton.clicked.connect(self.next_image)
-        self.segmentButton.clicked.connect(self.image_seg)
+        self.imgsegButton.clicked.connect(self.image_seg)
         self.play_choose = PlayChoose(self)
         self.play_choose.setModal(True)
         self.play_video = PlayVideo(self)
@@ -116,9 +116,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.play_video.stop()
 
     def openpath(self):
-        self.dir_path = QFileDialog.getExistingDirectory(parent=self, caption="打开图片文件", directory= "/home/jhvision-3/xu/SHU_FLH/detection_model/PANet/data/coco/images/val2017",options=QFileDialog.ShowDirsOnly)
-
-        self.result_list = sorted(self.result_list)
+        #self.dir_path = QFileDialog.getExistingDirectory(parent=self, caption="打开图片文件", directory= "/home/jhvision-3/xu/SHU_FLH/detection_model/PANet/data/coco/images/val2017",options=QFileDialog.ShowDirsOnly)
+        self.dir_path = "/home/jhvision-3/xu/SHU_FLH/detection_model/PANet/data/coco/images/val2017"
         self.image_list = os.listdir(self.dir_path)
         self.image_list = sorted(self.image_list)
         self.image_pos = 0
@@ -149,13 +148,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.repaint()
 
     def image_seg(self):
+        print(11)
         self.result_path = "/home/jhvision-3/xu/SHU_FLH/detection_model/results/8-2"
         self.result_list = os.listdir(self.result_path)
+        self.result_list = sorted(self.result_list)
         precision = run_instance_segmentation.run(range(0, len(self.result_list)))
         self.detEdit.setText(str(precision[0]))
         self.apEdit.setText(str(precision[0]))
         self.FPEdit.setText(str(precision[0]))
-
+        self.repaint()
     def openfile(self):
         file_name = QFileDialog.getOpenFileName(caption="打开视频文件", filter="Vedio Files(*.mp4)")
         if not file_name:
