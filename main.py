@@ -1,4 +1,4 @@
-import run_instance_segmentation
+#import run_instance_segmentation
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import Qt, QObject, QSize
@@ -9,10 +9,15 @@ import cv2
 import numpy as np
 import time
 import run_detection
+import run_instance_segmentation
 import run_segment
 import os
 import random
+import argparse
 
+parser = argparse.ArgumentParser()
+parser.add_argument('img_num', type=int, default=20)
+args = parser.parse_args()
 
 class PlayVideo(QObject):
     def __init__(self, parent):
@@ -122,7 +127,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dir_path = "/home/jhvision-3/xu/SHU_FLH/detection_model/PANet/data/coco/images/val2017"
         self.image_list = os.listdir(self.dir_path)
         self.image_list = sorted(self.image_list)
-        self.poses = random.sample(list(range(len(self.image_list))), 200)
+        self.poses = random.sample(list(range(len(self.image_list))), args.img_num)
+        self.poses.sort()
+        print('image ids: ', self.poses)
         self.pos_poses = 0
         self.image_pos = self.poses[self.pos_poses]
         self.play_video.stop()
@@ -161,14 +168,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.result_path = "/home/jhvision-3/xu/SHU_FLH/detection_model/results/8-2"
         self.result_list = os.listdir(self.result_path)
         self.result_list = sorted(self.result_list)
+        self.image2 = cv2.imread(os.path.join(self.result_path, self.result_list[self.image_pos]))
         precision = run_instance_segmentation.run(self.poses)
         self.detEdit.setText(str(precision[0]))
-        self.apEdit.setText(str(precision[0]))
-        self.FPEdit.setText(str(precision[0]))
+        self.apEdit.setText(str(precision[1]))
+        self.FPEdit.setText(str(precision[2]))
         self.repaint()
     def openfile(self):
         file_name = QFileDialog.getOpenFileName(caption="打开视频文件", filter="Vedio Files(*.mp4)")
-        if not file_name:
+        if not file_name or not len(file_name):
             return
         cap = cv2.VideoCapture(file_name[0])
         n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))

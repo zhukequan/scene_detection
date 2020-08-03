@@ -127,4 +127,4 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "image"))
         self.label_4.setText(_translate("MainWindow", "ap_det"))
         self.label_2.setText(_translate("MainWindow", "ap_seg"))
-        self.label_3.setText(_translate("MainWindow", "FP"))
+        self.label_3.setText(_translate("MainWindow", "FAR_seg"))
