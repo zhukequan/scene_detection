@@ -92,7 +92,7 @@
     </item>
     <item>
      <widget class="QWidget" name="widget_2" native="true">
-      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="15,1">
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="15,2">
        <item>
         <widget class="QWidget" name="widget_4" native="true">
          <layout class="QVBoxLayout" name="verticalLayout">
@@ -118,43 +118,95 @@
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
            <widget class="QLabel" name="label">
+            <property name="font">
+             <font>
+              <family>Adobe Devanagari</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>image</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="imgEdit"/>
+           <widget class="QLineEdit" name="imgEdit">
+            <property name="font">
+             <font>
+              <family>Adobe Devanagari</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_4">
+            <property name="font">
+             <font>
+              <family>Adobe Devanagari</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>ap_det</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="detEdit"/>
+           <widget class="QLineEdit" name="detEdit">
+            <property name="font">
+             <font>
+              <family>Adobe Devanagari</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_2">
+            <property name="font">
+             <font>
+              <family>Adobe Devanagari</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>ap_seg</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="apEdit"/>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>FP</string>
+           <widget class="QLineEdit" name="apEdit">
+            <property name="font">
+             <font>
+              <family>Adobe Devanagari</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="FPEdit"/>
+           <widget class="QLabel" name="label_3">
+            <property name="font">
+             <font>
+              <family>Adobe Devanagari</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>FAR_seg</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="FPEdit">
+            <property name="font">
+             <font>
+              <family>Adobe Devanagari</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
